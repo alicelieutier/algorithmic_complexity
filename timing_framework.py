@@ -1,13 +1,33 @@
 import time
+import random
 
-start_time = time.time_ns()
+def gen_arrays(min, max, step):
+  while min < max:
+    for i in range(20):
+      yield [random.random()* 100000 for i in range(min)]
+    yield None
+    min += step
 
-# compare
-# (i*i-2 for i in range(10000000)) # 3000 ns
-# and
-# [i*i-2 for i in range(10000000)] # 1663136000 ns
 
+def duration(fun, arg):
+  start_time = time.time_ns()
+  fun(arg)
+  end_time = time.time_ns()
+  duration_ns = end_time - start_time
+  return duration_ns
 
-end_time = time.time_ns()
-duration_ns = end_time - start_time
-print(duration_ns)
+def median(arr):
+  return sorted(arr)[len(arr)//2]
+
+def get_durations(fun, arg_gen):
+  arrays = gen_arrays(5_000, 50_001, 5_000)
+  durations, size = [], 0, 
+  for array in arrays:
+    if array == None:
+      print("{}\t{}".format(size, median(durations)))
+      durations, size = [], 0
+    else:
+      size = len(array)
+      durations.append(duration(fun, array))
+
+get_durations(max, gen_arrays)
