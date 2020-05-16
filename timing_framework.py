@@ -8,14 +8,6 @@ def gen_arrays(min, max, step):
     yield None
     min += step
 
-def gen_sorted_arrays(min, max, step):
-  while min < max:
-    for _ in range(20):
-      yield sorted([random.random()* 100000 for i in range(min)])
-    yield None
-    min += step
-
-
 def duration(fun, arg):
   start_time = time.time_ns()
   fun(arg)
@@ -26,12 +18,26 @@ def duration(fun, arg):
 def median(arr):
   return sorted(arr)[len(arr)//2]
 
-def get_durations(fun, arg_gen):
+def remove_outliers(arr):
+  nb = len(arr) // 3
+  return sorted(arr)[nb:-nb]
+
+def average(arr):
+  return sum(arr)/len(arr)
+
+def print_median(durations):
+  print(median(durations))
+
+def print_all(durations):
+  print("\t".join((str(d) for d in durations)))
+
+
+def get_durations(fun, arg_gen, durations_handler = print_median):
   print(fun.__name__)
   durations = []
   for arg in arg_gen:
     if arg == None:
-      print(median(durations))
+      durations_handler(durations)
       durations = []
     else:
       durations.append(duration(fun, arg))

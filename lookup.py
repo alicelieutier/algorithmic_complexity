@@ -27,15 +27,15 @@ def binary_search(args):
 # search arguments generator
 def gen_args_for_search(min, max, step, target):
   while min < max:
-    for _ in range(20):
-      yield (sorted([random.random()* 100_000 for i in range(min)]), target)
+    for _ in range(15):
+      yield (sorted([int(random.random()* random.random() * 1_000_000) for i in range(min)]), target)
     yield None
     min += step
 
-args = gen_args_for_search(5_000, 100_001, 5_000, 200_000)
-print(tm.get_durations(linear_search, args))
-args = gen_args_for_search(5_000, 100_001, 5_000, 200_000)
-print(tm.get_durations(binary_search, args))
+args = gen_args_for_search(50000, 1000000, 50000, 2000_6500)
+tm.get_durations(linear_search, args)
+args = gen_args_for_search(50000, 1000000, 50000, 2000_0890)
+tm.get_durations(binary_search, args)
 
 if __name__ == "__main__":
   assert(binary_search(([1,2,3,4,5,6,7,8], 3)) == True)
