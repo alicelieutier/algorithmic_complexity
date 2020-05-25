@@ -25,6 +25,9 @@ def remove_outliers(arr):
 def average(arr):
   return sum(arr)/len(arr)
 
+def average_no_outliers(durations):
+  print(average(remove_outliers(durations)))
+
 def print_median(durations):
   print(median(durations))
 

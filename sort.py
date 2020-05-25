@@ -34,6 +34,37 @@ def insertion_sort(arr):
     i+= 1
   return arr
 
+def _merge(arr1, arr2):
+  # if len(arr1) < len(arr2):
+  #   arr1, arr2 = arr2, arr1
+  c1 = 0
+  c2 = 0
+  result = []
+  while c1 < len(arr1) and c2 < len(arr2):
+    if arr1[c1] < arr2[c2]:
+      result.append(arr1[c1])
+      c1 += 1
+    else:
+      result.append(arr2[c2])
+      c2 += 1
+  while c2 < len(arr2):
+    result.append(arr2[c2])
+    c2 += 1
+  while c1 < len(arr1):
+    result.append(arr1[c1])
+    c1 += 1
+  return result
+
+def mergesort(arr):
+  if len(arr) < 2:
+    return arr
+  left, right = arr[:len(arr) // 2], arr[len(arr) // 2:]
+  sol1 = mergesort(left)
+  sol2 = mergesort(right)
+  return _merge(sol1, sol2)
+
+
+
 def quicksort(arr):
   # random.shuffle(arr)
   def aux(start, end):
@@ -64,10 +95,16 @@ def gen_arrays(min, max, step):
     yield None
     min += step
 
-arrays = gen_arrays(200, 2_001, 200)
-tm.get_durations(quicksort, arrays)
-# arrays = gen_arrays(5000, 50_001, 5000)
-# tm.get_durations(quicksort, arrays)
+arrays = gen_arrays(50, 501, 50)
+tm.get_durations(mergesort, arrays, tm.average_no_outliers)
+arrays = gen_arrays(50, 501, 50)
+tm.get_durations(selection_sort, arrays, tm.average_no_outliers)
+arrays = gen_arrays(50, 501, 50)
+tm.get_durations(quicksort, arrays, tm.average_no_outliers)
+arrays = gen_arrays(50, 501, 50)
+tm.get_durations(insertion_sort, arrays, tm.average_no_outliers)
+# # arrays = gen_arrays(5000, 50_001, 5000)
+# # tm.get_durations(quicksort, arrays)
 
 if __name__ == "__main__":
   assert(selection_sort([2,3,4,3,2,1]) == [1,2,2,3,3,4])
@@ -93,3 +130,13 @@ if __name__ == "__main__":
   assert(quicksort([]) == [])
   assert(quicksort([4,5]) == [4,5])
   assert(quicksort([10,5]) == [5,10])
+
+
+  assert(mergesort([2,3,4,3,2,1]) == [1,2,2,3,3,4])
+  assert(mergesort([1,1,1,1,1]) == [1,1,1,1,1])
+  assert(mergesort([0]) == [0])
+  assert(mergesort([9,2,3,7,7]) == [2,3,7,7,9])
+  assert(mergesort([9,2,3]) == [2,3,9])
+  assert(mergesort([]) == [])
+  assert(mergesort([4,5]) == [4,5])
+  assert(mergesort([10,5]) == [5,10])
