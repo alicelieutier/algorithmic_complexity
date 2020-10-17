@@ -103,8 +103,7 @@ arrays = gen_arrays(50, 501, 50)
 tm.get_durations(quicksort, arrays, tm.average_no_outliers)
 arrays = gen_arrays(50, 501, 50)
 tm.get_durations(insertion_sort, arrays, tm.average_no_outliers)
-# # arrays = gen_arrays(5000, 50_001, 5000)
-# # tm.get_durations(quicksort, arrays)
+
 
 if __name__ == "__main__":
   assert(selection_sort([2,3,4,3,2,1]) == [1,2,2,3,3,4])
